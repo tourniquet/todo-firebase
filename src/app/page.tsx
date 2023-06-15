@@ -5,7 +5,7 @@ import { Col, Row } from 'antd'
 import { TodoProvider } from '../contexts/TodoContext'
 
 import NewTodo from '../components/NewTodo/NewTodo'
-import UnorderedList from '../../UnorderedList/UnorderedList'
+import UnorderedList from '../components/UnorderedList/UnorderedList'
 
 export default function Home (): JSX.Element {
   return (
