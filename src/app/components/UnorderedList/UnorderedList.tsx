@@ -4,7 +4,7 @@ import { List } from 'antd'
 import { TodoContext } from '@/contexts/TodoContext'
 import { deleteDoc, doc } from 'firebase/firestore'
 
-import { db } from '../../../firebase-config'
+import { db } from '../../../../firebase-config'
 
 export default function UnorderedList (): JSX.Element {
   const { todos, getTodos, setTodos } = useContext(TodoContext)

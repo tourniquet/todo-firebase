@@ -2,14 +2,14 @@ import { Button, Input, Space } from 'antd'
 import { useContext, useState } from 'react'
 import { addDoc } from 'firebase/firestore'
 
-import { TodoContext } from '../../contexts/TodoContext'
+import { TodoContext } from '../../../contexts/TodoContext'
 
 export default function NewTodo (): JSX.Element {
   const [todo, setTodo] = useState('')
-  const { todosCollectionRef, getTodos } = useContext(TodoContext)
+  const { user, todosCollectionRef, getTodos } = useContext(TodoContext)
 
   const createNewTodo = async () => {
-    await addDoc(todosCollectionRef, { todo })
+    await addDoc(todosCollectionRef, { todo, uid: user.uid })
     getTodos()
     setTodo('')
   }
