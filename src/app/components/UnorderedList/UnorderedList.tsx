@@ -1,13 +1,31 @@
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { CloseOutlined, EditOutlined } from '@ant-design/icons'
+import { Checkbox, List } from 'antd'
+import { onAuthStateChanged } from 'firebase/auth'
 import { useContext, useEffect } from 'react'
-import { List } from 'antd'
+import styled from 'styled-components'
 
+import { auth, db } from '../../../../firebase-config'
 import { TodoContext } from '@/contexts/TodoContext'
-import { deleteDoc, doc } from 'firebase/firestore'
 
-import { db } from '../../../../firebase-config'
+const ListStyled = styled(List)`
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  border-top: 0;
+
+  @media (max-width: 767px) {
+    display: block;
+  }
+`
 
 export default function UnorderedList (): JSX.Element {
   const { todos, getTodos, setTodos } = useContext(TodoContext)
+
+  const doneTodo = async (id) => {
+    const todo = doc(db, 'todos', id)
+    await updateDoc(todo, { done: true })
+    setTodos(todos.map(todo => (todo.id === id) ? { ...todo, done: true } : todo))
+  }
 
   const deleteTodo = async (id) => {
     const itemDoc = doc(db, 'todos', id)
@@ -17,21 +35,27 @@ export default function UnorderedList (): JSX.Element {
   }
 
   useEffect(() => {
-    getTodos()
+    onAuthStateChanged(auth, (user) => {
+      if (user !== null) {
+        const uid = user.uid
+        getTodos(uid)
+      }
+    })
   }, [])
 
   return (
-    <List
+    <ListStyled
       bordered
       dataSource={todos}
-      renderItem={(todo, index) => (
+      renderItem={todo => (
         <List.Item
           actions={[
-            <a key='list-loadmore-edit'>edit</a>,
-            <a key='list-loadmore-more' onClick={() => deleteTodo(todo.id)}>remove</a>
+            <a key='list-loadmore-edit'>{!todo.done && (<EditOutlined />)}</a>,
+            <a key='list-loadmore-more' onClick={() => deleteTodo(todo.id)}><CloseOutlined /></a>
           ]}
         >
-          {todo.todo}
+          {todo.done && (<Checkbox defaultChecked disabled>{todo.todo}</Checkbox>)}
+          {!todo.done && (<Checkbox onChange={() => doneTodo(todo.id)}>{todo.todo}</Checkbox>)}
         </List.Item>
       )}
     />
