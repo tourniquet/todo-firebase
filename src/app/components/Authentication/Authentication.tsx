@@ -7,11 +7,15 @@ import { auth } from '../../../../firebase-config'
 import { TodoContext } from '../../../contexts/TodoContext'
 
 const AvatarStyled = styled(Avatar)`
-  float: right;
-  margin-right: 465px;
+  @media (min-width: 970px) {
+    float: right;
+    margin-right: 465px;
+  }
 `
 const ButtonStyled = styled(Button)`
-  margin-left: 465px;
+  @media (min-width: 970px) {
+    margin-left: 465px;
+  }
 `
 
 export default function Authentication (): JSX.Element {
@@ -41,19 +45,19 @@ export default function Authentication (): JSX.Element {
 
   return (
     <>
-      {!user && (
-        <>
-          <ButtonStyled onClick={googleLogin}>Login</ButtonStyled>
-          <AvatarStyled size='large' />
-        </>
-      )}
-
-      {user && (
-        <>
-          <ButtonStyled type='primary' onClick={logOut}>Log out</ButtonStyled>
-          <AvatarStyled size='large' src={user.photoURL} />
-        </>
-      )}
+      {user
+        ? (
+          <>
+            <ButtonStyled type='primary' onClick={logOut}>Log out</ButtonStyled>
+            <AvatarStyled size='large' src={user.photoURL} />
+          </>
+          )
+        : (
+          <>
+            <ButtonStyled onClick={googleLogin}>Login</ButtonStyled>
+            <AvatarStyled size='large' />
+          </>
+          )}
     </>
   )
 }

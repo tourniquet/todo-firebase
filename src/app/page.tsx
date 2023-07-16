@@ -14,13 +14,13 @@ export default function Home (): JSX.Element {
       <NavBar />
 
       <Row>
-        <Col span={12} offset={6}>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} lg={{ span: 12, offset: 6 }}>
           <NewTodo />
         </Col>
       </Row>
 
       <Row>
-        <Col span={12} offset={6}>
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} lg={{ span: 12, offset: 6 }}>
           <UnorderedList />
         </Col>
       </Row>
