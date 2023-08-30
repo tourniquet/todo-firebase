@@ -1,6 +1,6 @@
 import { Button, DatePicker, Input, Space } from 'antd'
 import { useContext, useState } from 'react'
-import { addDoc, Timestamp, serverTimestamp } from 'firebase/firestore'
+import { addDoc, Timestamp, serverTimestamp, FieldValue } from 'firebase/firestore'
 import styled from 'styled-components'
 
 import { TodoContext } from '../../../contexts/TodoContext'
@@ -14,22 +14,22 @@ const InputStyled = styled(Input)`
 
 export default function NewTodo (): JSX.Element {
   const [todo, setTodo] = useState('')
-  const [date, setDate] = useState('')
-  const { user, todosCollectionRef, getTodos } = useContext(TodoContext)
+  const [date, setDate] = useState<Timestamp | FieldValue | undefined>()
+  const { user, todosCollectionRef, getTodos }: { user?: { uid: string }, todosCollectionRef?: any, getTodos?: any } = useContext(TodoContext) // TODO: Find right type, not ANY
 
-  const createNewTodo = async () => {
+  const createNewTodo = async (): Promise<void> => {
     await addDoc(todosCollectionRef, {
       todo,
       createdAt: serverTimestamp(),
       dueDate: date,
-      uid: user.uid
+      uid: user?.uid
     })
-    getTodos(user.uid)
+    await getTodos(user?.uid)
     setTodo('')
   }
 
-  function getDate (date: {}): void {
-    const dueDate = date ? Timestamp.fromDate(date.$d) : serverTimestamp()
+  function getDate (date: { $d: Date }): void {
+    const dueDate = JSON.stringify(date) !== '{}' ? Timestamp.fromDate(date.$d) : serverTimestamp()
     setDate(dueDate)
   }
 
@@ -38,7 +38,7 @@ export default function NewTodo (): JSX.Element {
       <Space.Compact style={{ width: '100%' }}>
         <InputStyled
           onChange={e => setTodo(e.target.value)}
-          onKeyDown={(e) => { if (e.key === 'Enter') createNewTodo() }}
+          onKeyDown={(e) => { if (e.key === 'Enter') void createNewTodo() }}
           placeholder='some text here...'
           value={todo}
         />
@@ -46,7 +46,7 @@ export default function NewTodo (): JSX.Element {
         <DatePicker onChange={getDate} />
 
         <ButtonStyled
-          onClick={createNewTodo}
+          onClick={() => { void createNewTodo() }}
           type='primary'
         >
           Submit

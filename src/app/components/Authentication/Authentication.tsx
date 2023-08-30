@@ -19,12 +19,13 @@ const ButtonStyled = styled(Button)`
 `
 
 export default function Authentication (): JSX.Element {
-  const { user, setTodos } = useContext(TodoContext)
+  const { user, setTodos }: { user?: { photoURL: string }, setTodos?: any } = useContext(TodoContext) // TODO: Find right types, not ANY
 
   const googleProvider = new GoogleAuthProvider()
-  const googleLogin = async () => {
+  const googleLogin = async (): Promise<void> => {
     try {
       const result = await signInWithPopup(auth, googleProvider)
+      console.log(result) // TODO: find a "better" solution for an unused error
     } catch (error) {
       console.log(error)
     }
@@ -45,16 +46,16 @@ export default function Authentication (): JSX.Element {
 
   return (
     <>
-      {user
+      {JSON.stringify(user) !== '{}'
         ? (
           <>
             <ButtonStyled type='primary' onClick={logOut}>Log out</ButtonStyled>
-            <AvatarStyled size='large' src={user.photoURL} />
+            <AvatarStyled size='large' src={user?.photoURL} />
           </>
           )
         : (
           <>
-            <ButtonStyled onClick={googleLogin}>Login</ButtonStyled>
+            <ButtonStyled onClick={() => { void googleLogin() }}>Login</ButtonStyled>
             <AvatarStyled size='large' />
           </>
           )}
