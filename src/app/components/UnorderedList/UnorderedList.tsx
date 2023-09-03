@@ -43,19 +43,25 @@ export default function UnorderedList (): JSX.Element {
     })
   }, [])
 
+  interface TodoProps {
+    id: string
+    done: boolean
+    todo: string
+  }
+
   return (
     <ListStyled
       bordered
       dataSource={todos}
-      renderItem={(todo: { id: string, done: boolean, todo: string }) => (
+      renderItem={(todo: TodoProps | any, index: number) => ( // TODO: check if "todo: TodoProps | any" is OK
         <List.Item
           actions={[
-            <a key='list-loadmore-edit'>{!todo.done && (<EditOutlined />)}</a>,
+            <a key='list-loadmore-edit'>{todo.done === false && (<EditOutlined />)}</a>,
             <a key='list-loadmore-more' onClick={() => { void deleteTodo(todo.id) }}><CloseOutlined /></a>
           ]}
         >
-          {todo.done && (<Checkbox defaultChecked disabled>{todo.todo}</Checkbox>)}
-          {!todo.done && (<Checkbox onChange={() => { void doneTodo(todo.id) }}>{todo.todo}</Checkbox>)}
+          {todo.done === true && (<Checkbox defaultChecked disabled>{todo.todo}</Checkbox>)}
+          {todo.done === false && (<Checkbox onChange={() => { void doneTodo(todo.id) }}>{todo.todo}</Checkbox>)}
         </List.Item>
       )}
     />

@@ -1,6 +1,7 @@
-import { Button, DatePicker, Input, Space } from 'antd'
-import { useContext, useState } from 'react'
 import { addDoc, Timestamp, serverTimestamp, FieldValue } from 'firebase/firestore'
+import { Button, DatePicker, Input, Space } from 'antd'
+import { Dayjs } from 'dayjs'
+import { useContext, useState } from 'react'
 import styled from 'styled-components'
 
 import { TodoContext } from '../../../contexts/TodoContext'
@@ -28,9 +29,11 @@ export default function NewTodo (): JSX.Element {
     setTodo('')
   }
 
-  function getDate (date: { $d: Date }): void {
-    const dueDate = JSON.stringify(date) !== '{}' ? Timestamp.fromDate(date.$d) : serverTimestamp()
-    setDate(dueDate)
+  function getDate (value: Dayjs | null, dateString: string): void {
+    if (value?.millisecond() != null) {
+      const dueDate = JSON.stringify(value) !== '{}' ? Timestamp.fromMillis(value.millisecond()) : serverTimestamp() // TODO: Wrong date
+      setDate(dueDate)
+    }
   }
 
   return (
