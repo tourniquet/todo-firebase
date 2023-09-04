@@ -46,7 +46,7 @@ export default function Authentication (): JSX.Element {
 
   return (
     <>
-      {JSON.stringify(user) !== '{}'
+      {user !== null
         ? (
           <>
             <ButtonStyled type='primary' onClick={logOut}>Log out</ButtonStyled>
