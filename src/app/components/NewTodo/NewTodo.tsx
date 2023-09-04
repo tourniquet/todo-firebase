@@ -23,7 +23,8 @@ export default function NewTodo (): JSX.Element {
       todo,
       createdAt: serverTimestamp(),
       dueDate: date,
-      uid: user?.uid
+      uid: user?.uid,
+      done: false
     })
     await getTodos(user?.uid)
     setTodo('')
