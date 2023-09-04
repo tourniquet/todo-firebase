@@ -58,7 +58,7 @@ This GitHub repository hosts a powerful and intuitive To-Do application develope
 - **Responsive Design**: Whether you're on a desktop, tablet, or mobile device, the app adapts seamlessly to your screen size, providing a consistent user experience.
 
 **Live Demo:**
-You can try out this Todo app by visiting the [live project here](https://todo-firebase-jx1iofrrp-tourniquet.vercel.app). 
+You can try out this Todo app by visiting the [live project here](https://todo-firebase-umber.vercel.app). 
 
 **Technologies Used:**
 
