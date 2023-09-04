@@ -1,7 +1,7 @@
 'use client'
 
 import { collection, getDocs, query, where, orderBy } from 'firebase/firestore'
-import { Dispatch, SetStateAction, createContext, useState } from 'react'
+import { createContext, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, db } from '../../firebase-config'
@@ -9,12 +9,7 @@ import { auth, db } from '../../firebase-config'
 export const TodoContext = createContext({})
 
 export function TodoProvider ({ children }: { children: React.ReactNode }): JSX.Element {
-  interface TodosProps {
-    id: string
-    setTodos: Dispatch<SetStateAction<TodosProps[]>>
-  }
-
-  const [todos, setTodos] = useState<TodosProps[]>([])
+  const [todos, setTodos] = useState<any[]>([]) // TODO: find right type, not any
   const [user, loading] = useAuthState(auth)
   const todosCollectionRef = collection(db, 'todos')
 
