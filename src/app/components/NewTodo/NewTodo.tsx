@@ -31,8 +31,8 @@ export default function NewTodo (): JSX.Element {
   }
 
   function getDate (value: Dayjs | null, dateString: string): void {
-    if (value?.millisecond() != null) {
-      const dueDate = JSON.stringify(value) !== '{}' ? Timestamp.fromMillis(value.millisecond()) : serverTimestamp() // TODO: Wrong date
+    if (value?.isValid() !== undefined) {
+      const dueDate = JSON.stringify(value) !== '{}' ? Timestamp.fromMillis(value.valueOf()) : serverTimestamp()
       setDate(dueDate)
     }
   }
