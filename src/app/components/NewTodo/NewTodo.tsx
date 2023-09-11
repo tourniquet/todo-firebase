@@ -38,24 +38,22 @@ export default function NewTodo (): JSX.Element {
   }
 
   return (
-    <>
-      <Space.Compact style={{ width: '100%' }}>
-        <InputStyled
-          onChange={e => setTodo(e.target.value)}
-          onKeyDown={(e) => { if (e.key === 'Enter') void createNewTodo() }}
-          placeholder='some text here...'
-          value={todo}
-        />
+    <Space.Compact style={{ width: '100%' }}>
+      <InputStyled
+        onChange={e => setTodo(e.target.value)}
+        onKeyDown={(e) => { if (e.key === 'Enter') void createNewTodo() }}
+        placeholder='some text here...'
+        value={todo}
+      />
 
-        <DatePicker onChange={getDate} />
+      <DatePicker onChange={getDate} />
 
-        <ButtonStyled
-          onClick={() => { void createNewTodo() }}
-          type='primary'
-        >
-          Submit
-        </ButtonStyled>
-      </Space.Compact>
-    </>
+      <ButtonStyled
+        onClick={() => { void createNewTodo() }}
+        type='primary'
+      >
+        Submit
+      </ButtonStyled>
+    </Space.Compact>
   )
 }

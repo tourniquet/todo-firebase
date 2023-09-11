@@ -24,8 +24,7 @@ export default function Authentication (): JSX.Element {
   const googleProvider = new GoogleAuthProvider()
   const googleLogin = async (): Promise<void> => {
     try {
-      const result = await signInWithPopup(auth, googleProvider)
-      console.log(result) // TODO: find a "better" solution for an unused error
+      await signInWithPopup(auth, googleProvider)
     } catch (error) {
       console.log(error)
     }
