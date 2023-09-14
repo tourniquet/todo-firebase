@@ -1,38 +1,23 @@
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
-import { CloseOutlined, EditOutlined } from '@ant-design/icons'
-import { Checkbox, List } from 'antd'
 import { onAuthStateChanged } from 'firebase/auth'
 import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
+import ListItem from '../ListItem/ListItem'
 
-import { auth, db } from '../../../../firebase-config'
+import { auth } from '../../../../firebase-config'
 import { TodoContext } from '@/contexts/TodoContext'
 
-const ListStyled = styled(List)`
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
-  border-top: 0;
-
-  @media (max-width: 767px) {
-    display: block;
-  }
+const UlStyled = styled.ul`
+  border-radius: 6px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border: 1px solid rgb(217, 217, 217);
+  border-top: 0px;
+  list-style: none;
+  margin-top: 0;
 `
 
 export default function UnorderedList (): JSX.Element {
-  const { todos, getTodos, setTodos }: { todos?: any, getTodos?: any, setTodos?: any } = useContext(TodoContext)
-
-  const doneTodo = async (id: string): Promise<void> => {
-    const todo = doc(db, 'todos', id)
-    await updateDoc(todo, { done: true })
-    setTodos(todos.map((todo: { id: string }) => (todo.id === id) ? { ...todo, done: true } : todo))
-  }
-
-  const deleteTodo = async (id: string): Promise<void> => {
-    const itemDoc = doc(db, 'todos', id)
-    await deleteDoc(itemDoc)
-
-    setTodos(todos.filter((todo: { id: string }) => todo.id !== id))
-  }
+  const { todos, getTodos }: { todos?: any, getTodos?: any } = useContext(TodoContext)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -47,23 +32,19 @@ export default function UnorderedList (): JSX.Element {
     id: string
     done: boolean
     todo: string
+    index: number
+    handleCheckbox: Function
   }
 
   return (
-    <ListStyled
-      bordered
-      dataSource={todos}
-      renderItem={(todo: TodoProps | any, index: number) => ( // TODO: check if "todo: TodoProps | any" is OK
-        <List.Item
-          actions={[
-            <a key='list-loadmore-edit'>{todo.done === false && (<EditOutlined />)}</a>,
-            <a key='list-loadmore-more' onClick={() => { void deleteTodo(todo.id) }}><CloseOutlined /></a>
-          ]}
-        >
-          {todo.done === true && (<Checkbox defaultChecked disabled>{todo.todo}</Checkbox>)}
-          {todo.done === false && (<Checkbox onChange={() => { void doneTodo(todo.id) }}>{todo.todo}</Checkbox>)}
-        </List.Item>
-      )}
-    />
+    <UlStyled>
+      {todos.length > 0 && todos.map((todo: TodoProps, i: number) => (
+        <ListItem
+          key={i}
+          todo={todo}
+          index={i}
+        />
+      ))}
+    </UlStyled>
   )
 }
