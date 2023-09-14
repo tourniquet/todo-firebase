@@ -16,6 +16,14 @@ const UlStyled = styled.ul`
   margin-top: 0;
 `
 
+interface TodoProps {
+  id: string
+  done: boolean
+  todo: string
+  index: number
+  handleCheckbox: Function
+}
+
 export default function UnorderedList (): JSX.Element {
   const { todos, getTodos }: { todos?: any, getTodos?: any } = useContext(TodoContext)
 
@@ -27,14 +35,6 @@ export default function UnorderedList (): JSX.Element {
       }
     })
   }, [])
-
-  interface TodoProps {
-    id: string
-    done: boolean
-    todo: string
-    index: number
-    handleCheckbox: Function
-  }
 
   return (
     <UlStyled>
