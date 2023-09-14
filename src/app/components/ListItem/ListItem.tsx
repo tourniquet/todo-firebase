@@ -31,7 +31,7 @@ interface TodoProps {
   todo: string
 }
 
-function ListItem ({ todo }: { todo: TodoProps }): JSX.Element {
+function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Element {
   const { todos, setTodos }: { todos?: any, setTodos?: any } = useContext(TodoContext)
 
   const doneTodo = async (id: string): Promise<void> => {
@@ -48,7 +48,7 @@ function ListItem ({ todo }: { todo: TodoProps }): JSX.Element {
   }
 
   return (
-    <LiStyled>
+    <LiStyled key={index}>
       <LabelStyled>
         <input
           type='checkbox'

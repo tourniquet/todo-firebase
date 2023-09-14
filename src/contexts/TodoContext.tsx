@@ -1,7 +1,7 @@
 'use client'
 
 import { collection, getDocs, query, where, orderBy } from 'firebase/firestore'
-import { createContext, useState } from 'react'
+import React, { createContext, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth, db } from '../../firebase-config'
@@ -21,10 +21,7 @@ export function TodoProvider ({ children }: { children: React.ReactNode }): JSX.
       // ,orderBy('done')
     )
     const data = await getDocs(q)
-
-    setTodos(data.docs.map((todos) => {
-      return { ...todos.data(), id: todos.id }
-    }))
+    setTodos(data.docs.map((todos) => ({ ...todos.data(), id: todos.id })))
 
     console.log(loading) // TODO: find a "better" solution for an unused error
   }

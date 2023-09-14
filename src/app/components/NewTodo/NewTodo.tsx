@@ -30,7 +30,7 @@ export default function NewTodo (): JSX.Element {
     setTodo('')
   }
 
-  function getDate (value: Dayjs | null, dateString: string): void {
+  function getDate (value: Dayjs | null): void {
     if (value?.isValid() !== undefined) {
       const dueDate = JSON.stringify(value) !== '{}' ? Timestamp.fromMillis(value.valueOf()) : serverTimestamp()
       setDate(dueDate)
