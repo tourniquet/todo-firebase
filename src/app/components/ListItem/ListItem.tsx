@@ -25,6 +25,14 @@ const SpanStyled = styled.span`
   padding-inline-start: 8px;
 `
 
+const InputStyled = styled.input`
+  cursor: pointer;
+
+  &.disabled-input {
+    cursor: not-allowed;
+  }
+`
+
 interface TodoProps {
   id: string
   done: boolean
@@ -50,11 +58,12 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
   return (
     <LiStyled key={index}>
       <LabelStyled>
-        <input
+        <InputStyled
           type='checkbox'
           checked={todo.done}
           disabled={todo.done}
           onChange={() => { void doneTodo(todo.id) }}
+          className={todo.done ? 'disabled-input' : undefined}
         />
         <SpanStyled>
           {todo.todo}
