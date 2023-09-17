@@ -51,6 +51,7 @@ export default function NewTodo (): JSX.Element {
       <ButtonStyled
         onClick={() => { void createNewTodo() }}
         type='primary'
+        disabled={todo.length === 0}
       >
         Submit
       </ButtonStyled>
