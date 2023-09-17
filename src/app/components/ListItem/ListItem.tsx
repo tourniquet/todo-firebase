@@ -1,3 +1,4 @@
+import { Modal } from 'antd'
 import { CloseOutlined, EditOutlined } from '@ant-design/icons'
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
 import { useContext } from 'react'
@@ -42,6 +43,8 @@ interface TodoProps {
 function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Element {
   const { todos, setTodos }: { todos?: any, setTodos?: any } = useContext(TodoContext)
 
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const doneTodo = async (id: string): Promise<void> => {
     const todo = doc(db, 'todos', id)
     await updateDoc(todo, { done: true })
@@ -53,10 +56,23 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
     await deleteDoc(itemDoc)
 
     setTodos(todos.filter((todo: { id: string }) => todo.id !== id))
+    setIsModalOpen(false)
+  }
+
+  const showModal = (): void => {
+    setIsModalOpen(true)
+  }
+
+  const handleCancel = (): void => {
+    setIsModalOpen(false)
   }
 
   return (
     <LiStyled key={index}>
+      <Modal title='Remove todo' open={isModalOpen} onOk={() => { void deleteTodo(todo.id) }} onCancel={handleCancel}>
+        <p>Do you want to remove todo?</p>
+      </Modal>
+
       <LabelStyled>
         <InputStyled
           type='checkbox'
@@ -71,7 +87,7 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
       </LabelStyled>
 
       {!todo.done && (<EditOutlined />)}
-      <CloseOutlined onClick={() => { void deleteTodo(todo.id) }} />
+      <CloseOutlined onClick={showModal} />
     </LiStyled>
   )
 }
