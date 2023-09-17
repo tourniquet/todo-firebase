@@ -1,7 +1,7 @@
 import { Modal } from 'antd'
 import { CloseOutlined, EditOutlined } from '@ant-design/icons'
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
-import { useContext } from 'react'
+import { Timestamp, deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { useContext, useState } from 'react'
 import styled from 'styled-components'
 
 import { TodoContext } from '@/contexts/TodoContext'
@@ -38,6 +38,7 @@ interface TodoProps {
   id: string
   done: boolean
   todo: string
+  dueDate: Timestamp | undefined
 }
 
 function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Element {
@@ -82,7 +83,8 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
           className={todo.done ? 'disabled-input' : undefined}
         />
         <SpanStyled>
-          {todo.todo}
+          {todo.todo} |
+          {(typeof todo.dueDate !== 'string' && JSON.stringify(todo.dueDate) !== '{}') && todo.dueDate?.toDate().toLocaleDateString()}
         </SpanStyled>
       </LabelStyled>
 
