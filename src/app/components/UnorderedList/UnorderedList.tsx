@@ -1,7 +1,8 @@
 import { onAuthStateChanged } from 'firebase/auth'
+import { Timestamp } from 'firebase/firestore'
+import ListItem from '../ListItem/ListItem'
 import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
-import ListItem from '../ListItem/ListItem'
 
 import { auth } from '../../../../firebase-config'
 import { TodoContext } from '@/contexts/TodoContext'
@@ -20,6 +21,7 @@ interface TodoProps {
   id: string
   done: boolean
   todo: string
+  dueDate: Timestamp
   index: number
   handleCheckbox: Function
 }
