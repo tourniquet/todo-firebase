@@ -84,7 +84,7 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
         />
         <SpanStyled>
           {todo.todo} |
-          {(typeof todo.dueDate !== 'string' && JSON.stringify(todo.dueDate) !== '{}') && todo.dueDate?.toDate().toLocaleDateString()}
+          {(typeof todo.dueDate !== 'string' && JSON.stringify(todo.dueDate) !== '{}') && todo.dueDate?.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}
         </SpanStyled>
       </LabelStyled>
 
