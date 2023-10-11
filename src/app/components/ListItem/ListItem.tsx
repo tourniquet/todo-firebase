@@ -12,8 +12,7 @@ const LiStyled = styled.li`
   border-block-end: 1px solid rgba(5, 5, 5, 0.06);
   display: flex;
   justify-content: space-between;
-  padding-inline: 24px;
-  padding: 12px 0;
+  padding: 12px 24px
 `
 
 const LabelStyled = styled.label`
@@ -32,6 +31,13 @@ const InputStyled = styled.input`
   &.disabled-input {
     cursor: not-allowed;
   }
+`
+
+const IconsBlock = styled.div`
+  display: flex;
+  width: 35px;
+  justify-content: space-between;
+  flex-direction: row-reverse;
 `
 
 interface TodoProps {
@@ -88,8 +94,10 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
         </SpanStyled>
       </LabelStyled>
 
-      {!todo.done && (<EditOutlined />)}
-      <CloseOutlined onClick={showModal} />
+      <IconsBlock>
+        <CloseOutlined onClick={showModal} />
+        {!todo.done && (<EditOutlined />)}
+      </IconsBlock>
     </LiStyled>
   )
 }
