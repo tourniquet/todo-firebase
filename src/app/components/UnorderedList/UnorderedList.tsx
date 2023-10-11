@@ -15,6 +15,11 @@ const UlStyled = styled.ul`
   border-top: 0px;
   list-style: none;
   margin-top: 0;
+  padding: 0;
+
+  &.no-todos {
+    display: none;
+  }
 `
 
 interface TodoProps {
@@ -39,7 +44,7 @@ export default function UnorderedList (): JSX.Element {
   }, [])
 
   return (
-    <UlStyled>
+    <UlStyled className={todos.length === 0 ? 'no-todos' : undefined}>
       {todos.length > 0 && todos.map((todo: TodoProps, i: number) => (
         <ListItem
           key={i}
