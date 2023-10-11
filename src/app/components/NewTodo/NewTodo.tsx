@@ -8,15 +8,23 @@ import { TodoContext } from '../../../contexts/TodoContext'
 
 const ButtonStyled = styled(Button)`
   border-bottom-right-radius: 0;
+
+  &.no-todos {
+    border-bottom-right-radius: 6px;
+  }
 `
 const InputStyled = styled(Input)`
   border-bottom-left-radius: 0;
+
+  &.no-todos {
+    border-bottom-left-radius: 6px;
+  }
 `
 
 export default function NewTodo (): JSX.Element {
   const [todo, setTodo] = useState('')
   const [date, setDate] = useState<Timestamp | FieldValue | undefined>()
-  const { user, todosCollectionRef, getTodos }: { user?: { uid: string }, todosCollectionRef?: any, getTodos?: any } = useContext(TodoContext) // TODO: Find right type, not ANY
+  const { user, todos, todosCollectionRef, getTodos }: { user?: { uid: string }, todos?: any, todosCollectionRef?: any, getTodos?: any } = useContext(TodoContext) // TODO: Find right type, not ANY
 
   const createNewTodo = async (): Promise<void> => {
     await addDoc(todosCollectionRef, {
@@ -40,6 +48,7 @@ export default function NewTodo (): JSX.Element {
   return (
     <Space.Compact style={{ width: '100%' }}>
       <InputStyled
+        className={todos.length === 0 ? 'no-todos' : undefined}
         onChange={e => setTodo(e.target.value)}
         onKeyDown={(e) => { if (e.key === 'Enter') void createNewTodo() }}
         placeholder='some text here...'
@@ -49,6 +58,7 @@ export default function NewTodo (): JSX.Element {
       <DatePicker onChange={getDate} />
 
       <ButtonStyled
+        className={todos.length === 0 ? 'no-todos' : undefined}
         onClick={() => { void createNewTodo() }}
         type='primary'
         disabled={todo.length === 0}
