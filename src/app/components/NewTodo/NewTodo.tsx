@@ -23,7 +23,7 @@ const InputStyled = styled(Input)`
 
 export default function NewTodo (): JSX.Element {
   const [todo, setTodo] = useState('')
-  const [date, setDate] = useState<Timestamp | FieldValue | undefined>()
+  const [date, setDate] = useState<Timestamp | FieldValue | undefined>(serverTimestamp)
   const { user, todos, todosCollectionRef, getTodos }: { user?: { uid: string }, todos?: any, todosCollectionRef?: any, getTodos?: any } = useContext(TodoContext) // TODO: Find right type, not ANY
 
   const createNewTodo = async (): Promise<void> => {
