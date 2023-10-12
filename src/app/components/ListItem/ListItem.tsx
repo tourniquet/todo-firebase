@@ -23,6 +23,10 @@ const LabelStyled = styled.label`
 const SpanStyled = styled.span`
   padding-inline-end: 8px;
   padding-inline-start: 8px;
+
+  &.done {
+    color: rgba(0, 0, 0, 0.25);
+  }
 `
 
 const InputStyled = styled.input`
@@ -88,7 +92,7 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
           onChange={() => { void doneTodo(todo.id) }}
           className={todo.done ? 'disabled-input' : undefined}
         />
-        <SpanStyled>
+        <SpanStyled className={todo.done ? 'done' : undefined}>
           {todo.todo} |
           {(typeof todo.dueDate !== 'string' && JSON.stringify(todo.dueDate) !== '{}') && todo.dueDate?.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}
         </SpanStyled>
