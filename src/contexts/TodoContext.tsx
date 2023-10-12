@@ -32,9 +32,9 @@ export function TodoProvider ({ children }: { children: React.ReactNode }): JSX.
     )
     const data = await getDocs(q)
     setTodos(data.docs.map((todos) => ({ ...todos.data(), id: todos.id })))
-
-    console.log(loading) // TODO: find a "better" solution for an unused error
   }
+
+  console.log(loading) // TODO: find a "better" solution for an unused error
 
   return (
     <TodoContext.Provider value={{
