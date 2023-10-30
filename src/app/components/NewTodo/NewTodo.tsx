@@ -2,6 +2,7 @@ import { addDoc, Timestamp, serverTimestamp, FieldValue } from 'firebase/firesto
 import { Button, DatePicker, Input, Space } from 'antd'
 import { Dayjs } from 'dayjs'
 import { useContext, useState } from 'react'
+import { CloseCircleFilled } from '@ant-design/icons'
 import styled from 'styled-components'
 
 import { TodoContext } from '../../../contexts/TodoContext'
@@ -45,6 +46,10 @@ export default function NewTodo (): JSX.Element {
     }
   }
 
+  function clearInput (): void {
+    setTodo('')
+  }
+
   return (
     <Space.Compact style={{ width: '100%' }}>
       <InputStyled
@@ -53,6 +58,7 @@ export default function NewTodo (): JSX.Element {
         onKeyDown={(e) => { if (e.key === 'Enter') void createNewTodo() }}
         placeholder='some text here...'
         value={todo}
+        suffix={<CloseCircleFilled onClick={clearInput} style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
       />
 
       <DatePicker onChange={getDate} />
