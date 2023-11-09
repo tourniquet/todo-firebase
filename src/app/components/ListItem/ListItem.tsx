@@ -18,6 +18,13 @@ const LiStyled = styled.li`
 const LabelStyled = styled.label`
   align-items: center;
   display: inline-flex;
+  width: 100%;
+`
+const TodoBlock = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+  width: 100%;
 `
 
 const SpanStyled = styled.span`
@@ -92,10 +99,14 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
           onChange={() => { void doneTodo(todo.id) }}
           className={todo.done ? 'disabled-input' : undefined}
         />
-        <SpanStyled className={todo.done ? 'done' : undefined}>
-          {todo.todo} |
-          {(typeof todo.dueDate !== 'string' && JSON.stringify(todo.dueDate) !== '{}') && todo.dueDate?.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}
-        </SpanStyled>
+        <TodoBlock className='todo-block'>
+          <SpanStyled className={todo.done ? 'done' : undefined}>
+            {todo.todo}
+          </SpanStyled>
+          <SpanStyled>
+            {(typeof todo.dueDate !== 'string' && JSON.stringify(todo.dueDate) !== '{}') && todo.dueDate?.toDate().toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+          </SpanStyled>
+        </TodoBlock>
       </LabelStyled>
 
       <IconsBlock>
