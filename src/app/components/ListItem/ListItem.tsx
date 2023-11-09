@@ -52,7 +52,7 @@ interface TodoProps {
 }
 
 function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Element {
-  const { todos, setTodos }: { todos?: any, setTodos?: any } = useContext(TodoContext)
+  const { todos, setTodos, loadTodoToInput }: { todos?: any, setTodos?: any, loadTodoToInput?: any } = useContext(TodoContext)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -100,7 +100,7 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
 
       <IconsBlock>
         <CloseOutlined onClick={showModal} />
-        {!todo.done && (<EditOutlined />)}
+        {!todo.done && (<EditOutlined onClick={() => loadTodoToInput(todo.id)} />)}
       </IconsBlock>
     </LiStyled>
   )

@@ -19,6 +19,9 @@ interface TodoProps extends TodoCollection {
 }
 
 export function TodoProvider ({ children }: { children: React.ReactNode }): JSX.Element {
+  const [todoId, setTodoId] = useState('')
+  const [status, setStatus] = useState('create')
+  const [todo, setTodo] = useState('')
   const [todos, setTodos] = useState<TodoProps[]>([])
   const [user, loading] = useAuthState(auth)
   const todosCollectionRef = collection(db, 'todos') as CollectionReference<TodoCollection>
@@ -34,15 +37,30 @@ export function TodoProvider ({ children }: { children: React.ReactNode }): JSX.
     setTodos(data.docs.map((todos) => ({ ...todos.data(), id: todos.id })))
   }
 
+  function loadTodoToInput (id: string): void {
+    setTodoId(id)
+    setStatus('edit')
+
+    const todo = todos.filter((todo) => todo.id === id)
+    setTodo(todo[0].todo)
+  }
+
   console.log(loading) // TODO: find a "better" solution for an unused error
 
   return (
     <TodoContext.Provider value={{
+      todoId,
+      setTodoId,
+      status,
+      setStatus,
+      todo,
       user,
       todos,
       todosCollectionRef,
+      setTodo,
       setTodos,
-      getTodos
+      getTodos,
+      loadTodoToInput
     }}
     >
       {children}

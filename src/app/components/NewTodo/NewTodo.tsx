@@ -1,4 +1,4 @@
-import { addDoc, Timestamp, serverTimestamp, FieldValue } from 'firebase/firestore'
+import { addDoc, Timestamp, serverTimestamp, FieldValue, updateDoc, doc } from 'firebase/firestore'
 import { Button, DatePicker, Input, Space } from 'antd'
 import { Dayjs } from 'dayjs'
 import { useContext, useState } from 'react'
@@ -6,6 +6,7 @@ import { CloseCircleFilled } from '@ant-design/icons'
 import styled from 'styled-components'
 
 import { TodoContext } from '../../../contexts/TodoContext'
+import { db } from '../../../../firebase-config'
 
 const ButtonStyled = styled(Button)`
   border-bottom-right-radius: 0;
@@ -23,9 +24,8 @@ const InputStyled = styled(Input)`
 `
 
 export default function NewTodo (): JSX.Element {
-  const [todo, setTodo] = useState('')
   const [date, setDate] = useState<Timestamp | FieldValue | undefined>(serverTimestamp)
-  const { user, todos, todosCollectionRef, getTodos }: { user?: { uid: string }, todos?: any, todosCollectionRef?: any, getTodos?: any } = useContext(TodoContext) // TODO: Find right type, not ANY
+  const { todoId, status, setStatus, todo, setTodo, user, todos, todosCollectionRef, getTodos }: { todoId?: any, status?: any, setStatus?: any, todo?: any, setTodo?: any, user?: { uid: string }, todos?: any, todosCollectionRef?: any, getTodos?: any } = useContext(TodoContext) // TODO: Find right type, not ANY
 
   const createNewTodo = async (): Promise<void> => {
     await addDoc(todosCollectionRef, {
@@ -35,8 +35,18 @@ export default function NewTodo (): JSX.Element {
       uid: user?.uid,
       done: false
     })
+
     await getTodos(user?.uid)
     setTodo('')
+  }
+
+  const updateTodo = async (id: string): Promise<void> => {
+    const todoRef = doc(db, 'todos', id)
+    await updateDoc(todoRef, { todo, dueDate: date })
+
+    setStatus('create')
+    setTodo('')
+    await getTodos(user?.uid)
   }
 
   function getDate (value: Dayjs | null): void {
@@ -48,6 +58,7 @@ export default function NewTodo (): JSX.Element {
 
   function clearInput (): void {
     setTodo('')
+    setStatus('create')
   }
 
   return (
@@ -65,11 +76,18 @@ export default function NewTodo (): JSX.Element {
 
       <ButtonStyled
         className={todos.length === 0 ? 'no-todos' : undefined}
-        onClick={() => { void createNewTodo() }}
+        onClick={() => {
+          if (status === 'create') {
+            void createNewTodo()
+          } else {
+            void updateTodo(todoId)
+          }
+        }}
+        // onClick={(): Promise<void> => (status === 'create') ? createNewTodo() : updateTodo(todoId)}
         type='primary'
         disabled={todo.length === 0}
       >
-        Submit
+        {status === 'create' ? 'Submit' : 'Update'}
       </ButtonStyled>
     </Space.Compact>
   )
