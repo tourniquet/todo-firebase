@@ -1,5 +1,4 @@
 import { onAuthStateChanged } from 'firebase/auth'
-import { Timestamp } from 'firebase/firestore'
 import ListItem from '../ListItem/ListItem'
 import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'

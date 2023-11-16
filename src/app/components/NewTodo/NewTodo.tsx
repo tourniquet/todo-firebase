@@ -36,7 +36,7 @@ export default function NewTodo (): JSX.Element {
       done: false
     })
 
-    await getTodos(user?.uid)
+    getTodos(user?.uid)
     setTodo('')
   }
 
@@ -46,7 +46,7 @@ export default function NewTodo (): JSX.Element {
 
     setStatus('create')
     setTodo('')
-    await getTodos(user?.uid)
+    getTodos(user.uid)
   }
 
   function getDate (value: Dayjs | null): void {

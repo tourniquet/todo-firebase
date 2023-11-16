@@ -49,7 +49,7 @@ export default function Authentication (): JSX.Element {
         ? (
           <>
             <ButtonStyled type='primary' onClick={logOut}>Log out</ButtonStyled>
-            <AvatarStyled size='large' src={user?.photoURL} />
+            <AvatarStyled size='large' src={user.photoURL} />
           </>
           )
         : (
