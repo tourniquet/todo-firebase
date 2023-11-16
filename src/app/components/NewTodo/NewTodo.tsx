@@ -1,11 +1,11 @@
 import { addDoc, Timestamp, serverTimestamp, FieldValue, updateDoc, doc } from 'firebase/firestore'
 import { Button, DatePicker, Input, Space } from 'antd'
+import { CloseCircleFilled } from '@ant-design/icons'
 import { Dayjs } from 'dayjs'
 import { useContext, useState } from 'react'
-import { CloseCircleFilled } from '@ant-design/icons'
 import styled from 'styled-components'
 
-import { TodoContext } from '../../../contexts/TodoContext'
+import { TodoContext, TodoContextType } from '../../../contexts/TodoContext'
 import { db } from '../../../../firebase-config'
 
 const ButtonStyled = styled(Button)`
@@ -25,14 +25,14 @@ const InputStyled = styled(Input)`
 
 export default function NewTodo (): JSX.Element {
   const [date, setDate] = useState<Timestamp | FieldValue | undefined>(serverTimestamp)
-  const { todoId, status, setStatus, todo, setTodo, user, todos, todosCollectionRef, getTodos }: { todoId?: any, status?: any, setStatus?: any, todo?: any, setTodo?: any, user?: { uid: string }, todos?: any, todosCollectionRef?: any, getTodos?: any } = useContext(TodoContext) // TODO: Find right type, not ANY
+  const { todoId, status, setStatus, todo, setTodo, user, todos, todosCollectionRef, getTodos } = useContext(TodoContext) as TodoContextType
 
   const createNewTodo = async (): Promise<void> => {
     await addDoc(todosCollectionRef, {
       todo,
       createdAt: serverTimestamp(),
       dueDate: date,
-      uid: user?.uid,
+      uid: user.uid,
       done: false
     })
 

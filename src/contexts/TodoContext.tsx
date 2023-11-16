@@ -1,8 +1,9 @@
 'use client'
 
-import { collection, getDocs, query, where, orderBy, CollectionReference } from 'firebase/firestore'
-import React, { createContext, useState } from 'react'
+import { collection, getDocs, query, where, orderBy, CollectionReference, Timestamp } from 'firebase/firestore'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { User } from 'firebase/auth'
+import React, { createContext, useState } from 'react'
 
 import { auth, db } from '../../firebase-config'
 
@@ -11,11 +12,27 @@ export const TodoContext = createContext({})
 interface TodoCollection {
   done: boolean
   todo: string
-  index: number
+  dueDate: Timestamp | undefined
+  createdAt: Timestamp | undefined
+  uid: string
 }
 
-interface TodoProps extends TodoCollection {
+export interface TodoProps extends TodoCollection {
   id: string
+}
+
+export interface TodoContextType {
+  todoId: string
+  status: string
+  setStatus: React.Dispatch<React.SetStateAction<string>>
+  todo: string
+  setTodo: React.Dispatch<React.SetStateAction<string>>
+  user: User
+  todos: TodoProps[]
+  setTodos: React.Dispatch<React.SetStateAction<TodoProps[]>>
+  getTodos: (uid: string) => void
+  loadTodoToInput: (id: string) => void
+  todosCollectionRef: CollectionReference<TodoCollection>
 }
 
 export function TodoProvider ({ children }: { children: React.ReactNode }): JSX.Element {

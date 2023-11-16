@@ -1,10 +1,10 @@
+import { Avatar, Button } from 'antd'
 import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth'
 import { useContext } from 'react'
-import { Avatar, Button } from 'antd'
 import styled from 'styled-components'
 
 import { auth } from '../../../../firebase-config'
-import { TodoContext } from '../../../contexts/TodoContext'
+import { TodoContext, TodoContextType } from '../../../contexts/TodoContext'
 
 const AvatarStyled = styled(Avatar)`
   @media (min-width: 970px) {
@@ -19,7 +19,7 @@ const ButtonStyled = styled(Button)`
 `
 
 export default function Authentication (): JSX.Element {
-  const { user, setTodos }: { user?: { photoURL: string }, setTodos?: any } = useContext(TodoContext) // TODO: Find right types, not ANY
+  const { user, setTodos } = useContext(TodoContext) as TodoContextType
 
   const googleProvider = new GoogleAuthProvider()
   const googleLogin = async (): Promise<void> => {

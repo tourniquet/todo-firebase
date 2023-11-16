@@ -4,7 +4,7 @@ import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { auth } from '../../../../firebase-config'
-import { TodoContext } from '@/contexts/TodoContext'
+import { TodoContext, TodoContextType, TodoProps } from '@/contexts/TodoContext'
 
 const UlStyled = styled.ul`
   border-radius: 6px;
@@ -21,17 +21,8 @@ const UlStyled = styled.ul`
   }
 `
 
-interface TodoProps {
-  id: string
-  done: boolean
-  todo: string
-  dueDate: Timestamp
-  index: number
-  handleCheckbox: Function
-}
-
 export default function UnorderedList (): JSX.Element {
-  const { todos, getTodos }: { todos?: any, getTodos?: any } = useContext(TodoContext)
+  const { todos, getTodos } = useContext(TodoContext) as TodoContextType
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {

@@ -1,10 +1,10 @@
-import { Modal } from 'antd'
 import { CloseOutlined, EditOutlined } from '@ant-design/icons'
-import { Timestamp, deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore'
+import { Modal } from 'antd'
 import { useContext, useState } from 'react'
 import styled from 'styled-components'
 
-import { TodoContext } from '@/contexts/TodoContext'
+import { TodoContext, TodoContextType, TodoProps } from '@/contexts/TodoContext'
 import { db } from '../../../../firebase-config'
 
 const LiStyled = styled.li`
@@ -51,29 +51,22 @@ const IconsBlock = styled.div`
   flex-direction: row-reverse;
 `
 
-interface TodoProps {
-  id: string
-  done: boolean
-  todo: string
-  dueDate: Timestamp | undefined
-}
-
 function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Element {
-  const { todos, setTodos, loadTodoToInput }: { todos?: any, setTodos?: any, loadTodoToInput?: any } = useContext(TodoContext)
+  const { todos, setTodos, loadTodoToInput } = useContext(TodoContext) as TodoContextType
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const doneTodo = async (id: string): Promise<void> => {
     const todo = doc(db, 'todos', id)
     await updateDoc(todo, { done: true })
-    setTodos(todos.map((todo: { id: string }) => (todo.id === id) ? { ...todo, done: true } : todo))
+    setTodos(todos.map((todo: TodoProps) => (todo.id === id) ? { ...todo, done: true } : todo))
   }
 
   const deleteTodo = async (id: string): Promise<void> => {
     const itemDoc = doc(db, 'todos', id)
     await deleteDoc(itemDoc)
 
-    setTodos(todos.filter((todo: { id: string }) => todo.id !== id))
+    setTodos(todos.filter((todo: TodoProps) => todo.id !== id))
     setIsModalOpen(false)
   }
 
