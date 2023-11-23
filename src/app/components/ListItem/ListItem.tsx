@@ -20,6 +20,7 @@ const LabelStyled = styled.label`
   display: inline-flex;
   width: 100%;
 `
+
 const TodoBlock = styled.div`
   display: flex;
   justify-content: space-between;
@@ -84,14 +85,14 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
         <p>Do you want to remove todo?</p>
       </Modal>
 
+      <InputStyled
+        type='checkbox'
+        checked={todo.done}
+        disabled={todo.done}
+        onChange={() => { void doneTodo(todo.id) }}
+        className={todo.done ? 'disabled-input' : undefined}
+      />
       <LabelStyled>
-        <InputStyled
-          type='checkbox'
-          checked={todo.done}
-          disabled={todo.done}
-          onChange={() => { void doneTodo(todo.id) }}
-          className={todo.done ? 'disabled-input' : undefined}
-        />
         <TodoBlock className='todo-block'>
           <SpanStyled className={todo.done ? 'done' : undefined}>
             {todo.todo}
