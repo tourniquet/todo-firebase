@@ -12,7 +12,42 @@ const LiStyled = styled.li`
   border-block-end: 1px solid rgba(5, 5, 5, 0.06);
   display: flex;
   justify-content: space-between;
-  padding: 12px 24px
+  padding: 12px 24px;
+
+  &.default {
+    background: #D1E7DD;
+    border: 1px solid #A3CFBB;
+    color: #0A3622;
+  }
+
+  &.warning {
+    background: #FFF3CD;
+    border: 1px solid #FFE69C;
+    color: #664D03;
+  }
+
+  &.danger {
+    background: #F8D7DA;
+    border: 1px solid #F1AEB5;
+    color: #58151C;
+  }
+
+  &.done {
+    background: #E2E3E5;
+    border-top: 1px solid #C4C8CB;
+    border-bottom: 0;
+    color: #2B2F32;
+  }
+
+  &.default, &.warning, &.danger {
+    border-bottom: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  &.default:first-child, &.warning:first-child, &.danger:first-child, &.done:first-child {
+    border-top: 0;
+  }
 `
 
 const LabelStyled = styled.label`

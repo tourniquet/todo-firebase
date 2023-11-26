@@ -9,18 +9,19 @@ import { TodoContext, TodoContextType } from '../../../contexts/TodoContext'
 import { db } from '../../../../firebase-config'
 
 const ButtonStyled = styled(Button)`
-  border-bottom-right-radius: 0;
-
   &.no-todos {
     border-bottom-right-radius: 6px;
   }
 `
 const InputStyled = styled(Input)`
-  border-bottom-left-radius: 0;
-
   &.no-todos {
     border-bottom-left-radius: 6px;
   }
+`
+
+const SpaceCompact = styled(Space.Compact)`
+  margin-bottom: 20px;
+  width: 100%;
 `
 
 export default function NewTodo (): JSX.Element {
@@ -62,7 +63,7 @@ export default function NewTodo (): JSX.Element {
   }
 
   return (
-    <Space.Compact style={{ width: '100%' }}>
+    <SpaceCompact>
       <InputStyled
         className={todos.length === 0 ? 'no-todos' : undefined}
         onChange={e => setTodo(e.target.value)}
@@ -83,12 +84,11 @@ export default function NewTodo (): JSX.Element {
             void updateTodo(todoId)
           }
         }}
-        // onClick={(): Promise<void> => (status === 'create') ? createNewTodo() : updateTodo(todoId)}
         type='primary'
         disabled={todo.length === 0}
       >
         {status === 'create' ? 'Submit' : 'Update'}
       </ButtonStyled>
-    </Space.Compact>
+    </SpaceCompact>
   )
 }
