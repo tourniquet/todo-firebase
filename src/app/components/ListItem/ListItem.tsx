@@ -14,6 +14,11 @@ const LiStyled = styled.li`
   justify-content: space-between;
   padding: 12px 24px;
 
+  &:first-of-type {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
+
   &.default {
     background: #D1E7DD;
     border: 1px solid #A3CFBB;
