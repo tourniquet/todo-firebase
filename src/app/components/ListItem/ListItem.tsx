@@ -92,7 +92,7 @@ const IconsBlock = styled.div`
   flex-direction: row-reverse;
 `
 
-function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Element {
+function ListItem ({ todo, index, className }: { todo: TodoProps, index: number, className: string }): JSX.Element {
   const { todos, setTodos, loadTodoToInput } = useContext(TodoContext) as TodoContextType
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -120,7 +120,7 @@ function ListItem ({ todo, index }: { todo: TodoProps, index: number }): JSX.Ele
   }
 
   return (
-    <LiStyled key={index}>
+    <LiStyled className={className} key={index}>
       <Modal title='Remove todo' open={isModalOpen} onOk={() => { void deleteTodo(todo.id) }} onCancel={handleCancel}>
         <p>Do you want to remove todo?</p>
       </Modal>
