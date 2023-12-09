@@ -10,7 +10,6 @@ import { TodoContext, TodoContextType, TodoProps } from '@/contexts/TodoContext'
 const UlStyled = styled.ul`
   border-radius: 6px;
   border: 1px solid rgb(217, 217, 217);
-  border-top: 0px;
   list-style: none;
   margin-top: 0;
   padding: 0;
