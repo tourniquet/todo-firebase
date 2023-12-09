@@ -24,6 +24,10 @@ const SpaceCompact = styled(Space.Compact)`
   width: 100%;
 `
 
+const CloseCircleFilledStyled = styled(CloseCircleFilled)`
+  color: rgba(0, 0, 0, 0.25);
+`
+
 export default function NewTodo (): JSX.Element {
   const [date, setDate] = useState<Timestamp | FieldValue | undefined>(serverTimestamp)
   const { todoId, status, setStatus, todo, setTodo, user, todos, todosCollectionRef, getTodos } = useContext(TodoContext) as TodoContextType
@@ -70,7 +74,7 @@ export default function NewTodo (): JSX.Element {
         onKeyDown={(e) => { if (e.key === 'Enter') void createNewTodo() }}
         placeholder='some text here...'
         value={todo}
-        suffix={<CloseCircleFilled onClick={clearInput} style={{ color: 'rgba(0, 0, 0, 0.25)' }} />}
+        suffix={<CloseCircleFilledStyled onClick={clearInput} />}
       />
 
       <DatePicker onChange={getDate} />
